@@ -12,4 +12,4 @@ Basic express web that show a version from enviroment variable, used to test dep
 
 ## Usage
 - npm start
-- Open http://HOST:PORT
+- Open http://HOST:PORT/

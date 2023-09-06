@@ -7,7 +7,7 @@ import os from 'os'
 const router = express.Router()
 
 // Routes
-router.get('/', (req, res) => {
+router.get('*', (req, res) => {
     res.render('versioner', {
         title: 'Versioner',
         version: process.env.APPVERSION || '1.0.0',

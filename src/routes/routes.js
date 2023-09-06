@@ -10,7 +10,7 @@ const router = express.Router()
 router.get('/', (req, res) => {
     res.render('versioner', {
         title: 'Versioner',
-        version: '1.0.0',
+        version: process.env.APPVERSION || '1.0.0',
         hostname: os.hostname(),
         info:
             [

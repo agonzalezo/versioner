@@ -2,22 +2,26 @@
 
     <div class="d-flex justify-content-center align-items-center">
         <div>
-            <h1 class="text-success">
+            <h2 class="text-success">
                 Server Version: <%= version %>
-            </h1>
+            </h2>
             <h2 class="text-primary">
                 Server Hostname: <%= hostname %>
             </h2>
         </div>
     </div>
-    <div class="d-flex justify-content-center align-items-center">
-        <p>
-            Uptime: <%= info.uptime %>
-        </p>
-        <p>
-            Arch: <%= info.arch %>
-        </p>
-    </div>
-
-
+    <table class="table table-hover">
+        <tbody>
+            <% info.forEach(function(resource){ %>
+                <tr class="table-success">
+                    <th scope="row">
+                        <%= resource.name %>
+                    </th>
+                    <td>
+                        <%= resource.value %>
+                    </td>
+                </tr>
+            <% })%>
+        </tbody>
+    </table>
     <%- include('partials/_footer.ejs'); -%>

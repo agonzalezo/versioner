@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: api-$API_NAME
+  name: $API_NAME
   namespace: $NAME_SPACE
   labels:
-    microservice: api-$API_NAME
+    microservice: $API_NAME
 spec:
   replicas: 1
   selector:
     matchLabels:
-      microservice: api-$API_NAME
+      microservice: $API_NAME
   template:
     metadata:
       labels:
-        microservice: api-$API_NAME
+        microservice: $API_NAME
         component: appserver
     spec:
       containers:
-        - name: api-$API_NAME
+        - name: $API_NAME
           image: agonzalezo/$API_NAME:latest
           imagePullPolicy: Always
           # command:

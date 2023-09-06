@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-api-$API_NAME
+  name: service-$API_NAME
   namespace: $NAME_SPACE
   labels:
     component: ClusterIP
 spec:
   type: ClusterIP
   selector:
-    microservice: api-$API_NAME
+    microservice: $API_NAME
   ports:
     - protocol: TCP
       port: 80

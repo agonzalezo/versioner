@@ -6,6 +6,8 @@ then
     envsubst < 01-Service.yml > deployable.yml.tmp
     echo -e "\n---\n" >> deployable.yml.tmp
     envsubst < 11-Deployment.yml >> deployable.yml.tmp
+    echo -e "\n---\n" >> deployable.yml.tmp
+    envsubst < 21-hpa.yml >> deployable.yml.tmp
     echo "Done.."
 elif [[ -n "$API_NAME" ]]
 then
@@ -13,5 +15,7 @@ then
     envsubst < 01-Service.yml > deployable.yml.tmp
     echo -e "\n---\n" >> deployable.yml.tmp
     envsubst < 11-Deployment.yml >> deployable.yml.tmp
+    echo -e "\n---\n" >> deployable.yml.tmp
+    envsubst < 21-hpa.yml >> deployable.yml.tmp
     echo "Done.."
 fi

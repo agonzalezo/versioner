@@ -10,9 +10,10 @@ const router = express.Router()
 // Routes
 // Routes
 router.get('/load', (req, res) => {
+    console.log("Load test started.")
     exec('dd if=/dev/zero bs=50M count=200 | gzip | gzip -d  > /dev/null &',(stderr, stdout)=>{
-        console.error(stderr)
-        console.log(stdout)
+        console.error("Exec Error: ", stderr)
+        console.log("Exec Output: ", stdout)
     })
     res.json({message:"Load test started."})
 })

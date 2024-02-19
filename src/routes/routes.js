@@ -2,11 +2,21 @@
 /* eslint-disable indent */
 
 // Libs
+import { exec } from 'child_process'
 import express from 'express'
 import os from 'os'
 const router = express.Router()
 
 // Routes
+// Routes
+router.get('/load', (req, res) => {
+    exec('dd if=/dev/zero bs=50M count=200 | gzip | gzip -d  > /dev/null &',(stderr, stdout)=>{
+        console.error(stderr)
+        console.log(stdout)
+    })
+    res.json({message:"Load test started."})
+})
+
 router.get('*', (req, res) => {
     res.render('versioner', {
         title: 'Versioner',

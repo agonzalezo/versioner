@@ -1,0 +1,34 @@
+<script src="https://cdn.jsdelivr.net/npm/axios@1.1.2/dist/axios.min.js"></script>
+
+<hr>
+<div class="d-flex justify-content-center align-items-center">
+    <div>
+        <button id="load_button" type="button" class="btn btn-warning">Generate Load Test</button>
+    </div>
+</div>
+
+<div class="d-flex justify-content-center align-items-center">
+    <div>
+        <h4 id="load_message" class="text-warning">
+        </h4>
+    </div>
+</div>
+
+<script>
+    // vars
+    let message = document.getElementById("load_message")
+
+    // Catch a click action on the button
+    document.getElementById("load_button").addEventListener("click", () => {
+        console.info("Generating load test on the server at time:", new Date())
+        axios.get('/load')
+            .then(function (response) {
+                console.log(response.data);
+                message.innerText = "Load test started, please refresh this page."
+            })
+            .catch(function (error) {
+                console.error(error);
+                alert(error)
+            })
+    })
+</script>

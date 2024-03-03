@@ -20,19 +20,19 @@ router.get('/load', (req, res) => {
     res.json({ message: "Load test started." })
 })
 
-router.get('*', (req, res) => {
+router.get('*', async(req, res) => {
     if (os.userInfo().username == 'ec2-user') {
         res.render('versioner', {
             title: 'aws-instance',
             version: process.env.APPVERSION || '1.1.1',
-            hostname: instanceData.getInstanceId(),
+            hostname: await instanceData.getInstanceId(),
             info:
                 [
                     {
-                        name: 'tier', value: instanceData.getInstanceType()
+                        name: 'publicIp', value: await instanceData.getInstancePublicIp()
                     },
                     {
-                        name: 'publicIp', value: instanceData.getInstancePublicIp()
+                        name: 'tier', value: await instanceData.getInstanceType()
                     },
                     {
                         name: 'uptime', value: os.uptime()

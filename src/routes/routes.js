@@ -5,42 +5,71 @@
 import { exec } from 'child_process'
 import express from 'express'
 import os from 'os'
+import instanceData from '../helpers/ec2-metadata.js'
+
 const router = express.Router()
 
 // Routes
 // Routes
 router.get('/load', (req, res) => {
     console.log("Load test started.")
-    exec('dd if=/dev/zero bs=50M count=200 | gzip | gzip -d  > /dev/null &',(stderr, stdout)=>{
+    exec('dd if=/dev/zero bs=50M count=200 | gzip | gzip -d  > /dev/null &', (stderr, stdout) => {
         console.error("Exec Error: ", stderr)
         console.log("Exec Output: ", stdout)
     })
-    res.json({message:"Load test started."})
+    res.json({ message: "Load test started." })
 })
 
 router.get('*', (req, res) => {
-    res.render('versioner', {
-        title: 'Versioner',
-        version: process.env.APPVERSION || '1.0.0',
-        hostname: os.hostname(),
-        info:
-            [
-                {
-                    name: 'arch', value: os.arch()
-                },
-                {
-                    name: 'memory', value: os.totalmem()
-                },
-                {
-                    name: 'uptime', value: os.uptime()
-                },
-                {
-                    name: 'load', value: os.loadavg()
-                },
+    if (os.userInfo().username == 'ec2-user') {
+        res.render('versioner', {
+            title: 'aws-instance',
+            version: process.env.APPVERSION || '1.1.1',
+            hostname: instanceData.getInstanceId(),
+            info:
+                [
+                    {
+                        name: 'tier', value: instanceData.getInstanceType()
+                    },
+                    {
+                        name: 'publicIp', value: instanceData.getInstancePublicIp()
+                    },
+                    {
+                        name: 'uptime', value: os.uptime()
+                    },
+                    {
+                        name: 'memory', value: os.totalmem()
+                    },
+                    {
+                        name: 'load', value: os.loadavg()
+                    }
+                ]
+        })
+    }
+    else {
+        res.render('versioner', {
+            title: 'Versioner',
+            version: process.env.APPVERSION || '1.0.0',
+            hostname: os.hostname(),
+            info:
+                [
+                    {
+                        name: 'arch', value: os.arch()
+                    },
+                    {
+                        name: 'memory', value: os.totalmem()
+                    },
+                    {
+                        name: 'uptime', value: os.uptime()
+                    },
+                    {
+                        name: 'load', value: os.loadavg()
+                    },
                     { name: 'cpu', value: JSON.stringify(os.cpus()[0].model) }
-            ]
-        //        info: { arch: os.arch(), memory: os.totalmem(), uptime: os.uptime(), load: os.loadavg(), cpu: os.cpus() }
-    })
+                ]
+            //        info: { arch: os.arch(), memory: os.totalmem(), uptime: os.uptime(), load: os.loadavg(), cpu: os.cpus() }
+        })
+    }
 })
 
 // Export

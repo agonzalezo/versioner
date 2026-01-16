@@ -32,10 +32,10 @@ const server = app.listen(app.get('port'), () => {
 process.on('SIGTERM', shutdownServer)
 process.on('SIGINT', shutdownServer)
 
-function shutdownServer(){
+function shutdownServer() {
     console.log('ShutDown signal received: closing HTTP server')
 
-    server.close((err)=>{
+    server.close((err) => {
         if (err) {
             console.error('Error during server shutdown', err)
             process.exit(1)
@@ -44,7 +44,7 @@ function shutdownServer(){
         process.exit(0)
     })
 
-    setTimeout(()=>{
+    setTimeout(() => {
         console.error('Forcing server shutdown after timeout')
         process.exit(1)
     }, 28000)

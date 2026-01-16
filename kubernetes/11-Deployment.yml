@@ -1,51 +1,98 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: $API_NAME
-  namespace: $NAME_SPACE
+  name: versioner
+  namespace: xylon
   labels:
-    microservice: $API_NAME
+    microservice: versioner
 spec:
-  replicas: 1
+  replicas: 4
   selector:
     matchLabels:
-      microservice: $API_NAME
+      microservice: versioner
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   template:
     metadata:
       labels:
-        microservice: $API_NAME
+        microservice: versioner
         component: appserver
     spec:
+      terminationGracePeriodSeconds: 30
+
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+
       containers:
-        - name: $API_NAME
-          image: agonzalezo/$API_NAME:latest
+        - name: versioner
+          image: agonzalezo/versioner:latest
           imagePullPolicy: Always
           # command:
           #   - "/usr/bin/tail"
           #   - "-f"
           #   - "/dev/null"
           ports:
-            - containerPort: 3000
+            - name: web
+              containerPort: 3000
+              protocol: TCP
           env:
             - name: PORT
               value: "3000"
+            - name: NODE_ENV
+              value: "production"
             - name: API_NAME
-              value: $API_NAME
+              value: versioner
             - name: APPVERSION
-              value: $APPVERSION
+              value: 2.0.2
+            - name: API_LOG_LEVEL
+              value: "short"
+
           resources:
             requests:
-              memory: "50Mi"
-              cpu: "50m"
-            limits:
-              memory: "90Mi"
+              memory: "64Mi"
               cpu: "100m"
+            limits:
+              memory: "128Mi"
+              cpu: "200m"
+
           readinessProbe:
-            initialDelaySeconds: 80
-            periodSeconds: 10
-            timeoutSeconds: 5
-            successThreshold: 2
-            failureThreshold: 3
             httpGet:
               path: /
-              port: 3000
+              port: web
+              scheme: HTTP
+            initialDelaySeconds: 10
+            periodSeconds: 10
+            timeoutSeconds: 5
+            successThreshold: 1
+            failureThreshold: 3
+
+          livenessProbe:
+            httpGet:
+              path: /
+              port: web
+              scheme: HTTP
+            initialDelaySeconds: 30
+            periodSeconds: 15
+            timeoutSeconds: 5
+            failureThreshold: 3
+
+          startupProbe:
+            httpGet:
+              path: /
+              port: web
+              scheme: HTTP
+            initialDelaySeconds: 0
+            periodSeconds: 5
+            timeoutSeconds: 3
+            failureThreshold: 12
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL

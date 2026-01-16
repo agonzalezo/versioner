@@ -48,7 +48,7 @@ spec:
             - name: API_NAME
               value: versioner
             - name: APPVERSION
-              value: 2.0.2
+              value: 2.1.0
             - name: API_LOG_LEVEL
               value: "short"
 

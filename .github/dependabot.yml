@@ -20,6 +20,7 @@ updates:
     open-pull-requests-limit: 5
     labels:
       - "bug"
+      - "automated"
     commit-message:
       prefix: "chore"
       include: "scope"
@@ -40,6 +41,7 @@ updates:
     open-pull-requests-limit: 3
     labels:
       - "bug"
+      - "automated"
     commit-message:
       prefix: "chore"
       include: "scope"

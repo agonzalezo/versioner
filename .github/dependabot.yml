@@ -19,8 +19,7 @@ updates:
     # Security updates siempre separados e inmediatos
     open-pull-requests-limit: 5
     labels:
-      - "dependencies"
-      - "automated"
+      - "bug"
     commit-message:
       prefix: "chore"
       include: "scope"
@@ -40,9 +39,7 @@ updates:
       time: "09:00"
     open-pull-requests-limit: 3
     labels:
-      - "docker"
-      - "security"
-      - "automated"
+      - "bug"
     commit-message:
       prefix: "chore"
       include: "scope"

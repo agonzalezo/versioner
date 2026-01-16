@@ -1,11 +1,11 @@
 ### --- Builder Stage ---
-FROM node:22.21.1-alpine AS builder
+FROM node:25.3.0-alpine AS builder
 WORKDIR /build
 COPY package*.json ./
 RUN npm ci --only=production && npm cache clean --force
 
 ### --- Runtime Stage ---
-FROM node:22.21.1-alpine
+FROM node:25.3.0-alpine
 ENV NODE_ENV=production
 RUN apk add --no-cache dumb-init
 WORKDIR /app

@@ -44,7 +44,17 @@ jobs:
         run: pip install semgrep
 
       - name: Run Semgrep scan
-        run: semgrep scan --config auto --error --severity ERROR src/
+        run: |
+          semgrep scan --config=auto --severity=HIGH --json --output=semgrep-results.json src/ || true
+          cat semgrep-results.json
+          semgrep scan --config=auto --severity=HIGH --error src/
+
+      - name: Upload Semgrep results
+        if: always()  # Ejecuta incluso si el scan falla
+        uses: actions/upload-artifact@v4
+        with:
+          name: semgrep-results
+          path: semgrep-results.json
 
   # # Job 3: Tests (Paralelo - 2min)
   # test:

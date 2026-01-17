@@ -44,17 +44,21 @@ jobs:
         run: pip install semgrep
 
       - name: Run Semgrep scan
-        run: |
-          semgrep scan --config=auto --severity=ERROR --json --output=semgrep-results.json src/ || true
-          cat semgrep-results.json
-          semgrep scan --config=auto --severity=ERROR --error src/
+        id: semgrep-scan
+        continue-on-error: true
+        run: semgrep scan --config=auto --error --sarif --output=semgrep.sarif src/
 
-      - name: Upload Semgrep results
-        if: always()  # Ejecuta incluso si el scan falla
-        uses: actions/upload-artifact@v4
+      - name: Upload to GitHub Security
+        if: always()
+        uses: github/codeql-action/upload-sarif@v3
         with:
-          name: semgrep-results
-          path: semgrep-results.json
+          sarif_file: semgrep.sarif
+
+      - name: Fail pipeline if security issues found
+        if: steps.semgrep-scan.outcome == 'failure'
+        run: |
+          echo "❌ Security vulnerabilities detected - check Security tab"
+          exit 1
 
   # # Job 3: Tests (Paralelo - 2min)
   # test:

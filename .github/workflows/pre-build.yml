@@ -45,9 +45,9 @@ jobs:
 
       - name: Run Semgrep scan
         run: |
-          semgrep scan --config=auto --severity=HIGH --json --output=semgrep-results.json src/ || true
+          semgrep scan --config=auto --severity=ERROR --json --output=semgrep-results.json src/ || true
           cat semgrep-results.json
-          semgrep scan --config=auto --severity=HIGH --error src/
+          semgrep scan --config=auto --severity=ERROR --error src/
 
       - name: Upload Semgrep results
         if: always()  # Ejecuta incluso si el scan falla

@@ -27,16 +27,18 @@ jobs:
       - name: Run linter
         run: npm run lint
       
-  # # Job 2: Security SAST (Paralelo - 1min)
-  # security-sast:
-  #   name: SAST Security Scan
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v4
-  #     - name: Run Semgrep
-  #       uses: returntocorp/semgrep-action@v1
-  #       with:
-  #         config: auto
+  # Job 2: Security SAST (Paralelo - 1min)
+  security-sast:
+    name: SAST Security Scan
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Semgrep
+        uses: returntocorp/semgrep-action@v1
+        with:
+          config: auto
           
   # # Job 3: Tests (Paralelo - 2min)
   # test:
@@ -75,4 +77,5 @@ jobs:
     needs: 
       - lint
     steps:
-      - run: echo "✅ All quality checks passed"
+      - name: Print Success Message
+        run: echo "✅ All quality checks passed"

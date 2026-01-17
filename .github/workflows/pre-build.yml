@@ -35,11 +35,17 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Run Semgrep
-        uses: returntocorp/semgrep-action@v1
+      - name: Setup Python for Semgrep
+        uses: actions/setup-python@v5
         with:
-          config: auto
-          
+          python-version: '3.x'
+
+      - name: Install Semgrep
+        run: pip install semgrep
+
+      - name: Run Semgrep scan
+        run: semgrep scan --config auto --error --severity high src/
+
   # # Job 3: Tests (Paralelo - 2min)
   # test:
   #   name: Unit & Integration Tests
@@ -76,6 +82,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: 
       - lint
+      - security-sast
     steps:
       - name: Print Success Message
         run: echo "✅ All quality checks passed"

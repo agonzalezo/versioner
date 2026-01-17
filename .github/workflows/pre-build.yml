@@ -44,7 +44,7 @@ jobs:
         run: pip install semgrep
 
       - name: Run Semgrep scan
-        run: semgrep scan --config auto --error --severity high src/
+        run: semgrep scan --config auto --error --severity ERROR src/
 
   # # Job 3: Tests (Paralelo - 2min)
   # test:

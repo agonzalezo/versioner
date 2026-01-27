@@ -9,7 +9,12 @@ spec:
   replicas: 4
   selector:
     matchLabels:
-      microservice: $API_NAME
+      microservice: versioner
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
   template:
     metadata:
       labels:
@@ -38,10 +43,15 @@ spec:
           env:
             - name: PORT
               value: "3000"
+            - name: NODE_ENV
+              value: "production"
             - name: API_NAME
-              value: $API_NAME
+              value: versioner
             - name: APPVERSION
-              value: $APPVERSION
+              value: 2.1.0
+            - name: API_LOG_LEVEL
+              value: "short"
+
           resources:
             requests:
               memory: "64Mi"
@@ -51,7 +61,11 @@ spec:
               cpu: "200m"
 
           readinessProbe:
-            initialDelaySeconds: 80
+            httpGet:
+              path: /
+              port: web
+              scheme: HTTP
+            initialDelaySeconds: 10
             periodSeconds: 10
             timeoutSeconds: 5
             successThreshold: 1

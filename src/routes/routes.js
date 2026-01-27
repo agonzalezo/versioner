@@ -21,7 +21,7 @@ router.get('/load', (req, res) => {
 })
 
 router.get('*', async(req, res) => {
-    if (req.header('X-Real-IP') &&  req.header('X-Forwarded-For')) {
+    if (req.header('X-Real-IP') && req.header('X-Forwarded-For')) {
         console.log(`X-Real-IP: ${req.header('X-Real-IP')}, X-Forwarded-For: ${req.header('X-Forwarded-For')}`)
     } else {
         console.log(`Request from IP: ${req.ip}`)

@@ -1,4 +1,4 @@
-name: CI - Pre-Build Quality Gates
+name: CI - Quality Gates Pre-Build
 
 on:
   pull_request:

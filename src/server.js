@@ -18,7 +18,7 @@ app.set('env', process.env.NODE_ENV || 'production')
 app.set('hostname', hostname())
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'ejs')
-app.set('log-level', process.env.API_LOG_LEVEL || 'short')
+app.set('log-level', process.env.API_LOG_LEVEL || 'combined')
 
 // Middlewares
 app.use(morgan(app.get('log-level')))

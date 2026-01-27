@@ -21,10 +21,15 @@ router.get('/load', (req, res) => {
 })
 
 router.get('*', async(req, res) => {
+    if (req.header('X-Real-IP') &&  req.header('X-Forwarded-For')) {
+        console.log(`X-Real-IP: ${req.header('X-Real-IP')}, X-Forwarded-For: ${req.header('X-Forwarded-For')}`)
+    } else {
+        console.log(`Request from IP: ${req.ip}`)
+    }
     if (os.userInfo().username === 'ec2-user') {
         res.render('versioner', {
             title: 'aws-instance',
-            version: process.env.APPVERSION || '1.1.1',
+            version: process.env.APPVERSION || '2.0.0',
             hostname: await instanceData.getInstanceId(),
             info:
                 [
@@ -48,7 +53,7 @@ router.get('*', async(req, res) => {
     } else {
         res.render('versioner', {
             title: 'Versioner',
-            version: process.env.APPVERSION || '1.0.0',
+            version: process.env.APPVERSION || '2.0.0',
             hostname: os.hostname(),
             info:
                 [

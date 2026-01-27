@@ -12,16 +12,16 @@ const router = express.Router()
 // Routes
 // Routes
 router.get('/load', (req, res) => {
-    console.log("Load test started.")
+    console.log('Load test started.')
     exec('dd if=/dev/zero bs=50M count=200 | gzip | gzip -d  > /dev/null &', (stderr, stdout) => {
-        console.error("Exec Error: ", stderr)
-        console.log("Exec Output: ", stdout)
+        console.error('Exec Error: ', stderr)
+        console.log('Exec Output: ', stdout)
     })
-    res.json({ message: "Load test started." })
+    res.json({ message: 'Load test started.' })
 })
 
 router.get('*', async(req, res) => {
-    if (os.userInfo().username == 'ec2-user') {
+    if (os.userInfo().username === 'ec2-user') {
         res.render('versioner', {
             title: 'aws-instance',
             version: process.env.APPVERSION || '1.1.1',
@@ -45,8 +45,7 @@ router.get('*', async(req, res) => {
                     }
                 ]
         })
-    }
-    else {
+    } else {
         res.render('versioner', {
             title: 'Versioner',
             version: process.env.APPVERSION || '1.0.0',

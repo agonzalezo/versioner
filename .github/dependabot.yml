@@ -1,0 +1,47 @@
+# Dependabot - Automatización de updates de dependencias y seguridad
+version: 2
+updates:
+  # Dependencias npm (Node.js)
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    # Agrupar minor y patch juntos (1 PR en vez de 10)
+    groups:
+      production-dependencies:
+        patterns:
+          - "*"
+        update-types:
+          - "minor"
+          - "patch"
+    # Security updates siempre separados e inmediatos
+    open-pull-requests-limit: 5
+    labels:
+      - "bug"
+      - "automated"
+    commit-message:
+      prefix: "chore"
+      include: "scope"
+    # Ignorar major versions (breaking changes)
+    ignore:
+      - dependency-name: "express"
+        update-types: ["version-update:semver-major"]
+      - dependency-name: "ejs"
+        update-types: ["version-update:semver-major"]
+
+  # Imágenes Docker
+  - package-ecosystem: "docker"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+    open-pull-requests-limit: 3
+    labels:
+      - "bug"
+      - "automated"
+    commit-message:
+      prefix: "chore"
+      include: "scope"

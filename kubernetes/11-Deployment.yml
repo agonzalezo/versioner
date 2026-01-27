@@ -1,24 +1,24 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: $API_NAME
-  namespace: $NAME_SPACE
+  name: versioner
+  namespace: xylon
   labels:
-    microservice: $API_NAME
+    microservice: versioner
 spec:
-  replicas: 1
+  replicas: 4
   selector:
     matchLabels:
-      microservice: $API_NAME
+      microservice: versioner
   template:
     metadata:
       labels:
-        microservice: $API_NAME
+        microservice: versioner
         component: appserver
     spec:
       containers:
-        - name: $API_NAME
-          image: agonzalezo/$API_NAME:latest
+        - name: versioner
+          image: agonzalezo/versioner:latest
           imagePullPolicy: Always
           # command:
           #   - "/usr/bin/tail"
@@ -29,10 +29,10 @@ spec:
           env:
             - name: PORT
               value: "3000"
-            - name: API_NAME
-              value: $API_NAME
+            - name: versioner
+              value: versioner
             - name: APPVERSION
-              value: $APPVERSION
+              value: 2.2.2
           resources:
             requests:
               memory: "50Mi"
@@ -41,7 +41,7 @@ spec:
               memory: "90Mi"
               cpu: "100m"
           readinessProbe:
-            initialDelaySeconds: 80
+            initialDelaySeconds: 10
             periodSeconds: 10
             timeoutSeconds: 5
             successThreshold: 2

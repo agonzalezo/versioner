@@ -1,14 +1,14 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: service-$API_NAME
-  namespace: $NAME_SPACE
+  name: service-versioner
+  namespace: xylon
   labels:
     component: ClusterIP
 spec:
   type: ClusterIP
   selector:
-    microservice: $API_NAME
+    microservice: versioner
   ports:
     - protocol: TCP
       port: 80

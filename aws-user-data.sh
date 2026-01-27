@@ -3,21 +3,21 @@ set -u
 
 echo "Installing Nodejs"
 cd /home/ec2-user
-wget https://nodejs.org/download/release/v16.20.2/node-v16.20.2-linux-x64.tar.xz
+wget https://nodejs.org/download/release/latest-v24.x/node-v24.13.0-linux-x64.tar.xz
 sudo mkdir -p /opt/nodejs/
 sudo mkdir -p /opt/apps/
 sudo chown -R 1000:1000 /opt/nodejs/
 sudo chown -R 1000:1000 /opt/apps/
-tar -xJf node-v16.20.2-linux-x64.tar.xz -C /opt/nodejs/
-sudo ln -s /opt/nodejs/node-v16.20.2-linux-x64/bin/node /usr/bin/node
-sudo ln -s /opt/nodejs/node-v16.20.2-linux-x64/bin/npm /usr/bin/npm
+tar -xJf node-v24.13.0-linux-x64.tar.xz -C /opt/nodejs/
+sudo ln -s /opt/nodejs/node-v24.13.0-linux-x64/bin/node /usr/bin/node
+sudo ln -s /opt/nodejs/node-v24.13.0-linux-x64/bin/npm /usr/bin/npm
 
 echo "Installing app versioner"
 cd /opt/apps && wget https://github.com/agonzalezo/versioner/archive/refs/heads/main.zip
 unzip main.zip
 cd versioner-main
 ls -l
-npm install
+npm ci --only=production && npm cache clean --force
 
 echo "Creating service"
 cd /home/ec2-user

@@ -8,8 +8,7 @@ on:
       - 'Dockerfile'
       - 'package.json'
       - 'package-lock.json'
-      - '.github/workflows/build.yml'
-      - '.github/workflows/deploy.yml'
+      - '.github/workflows/**'
 
 jobs:
   Continuous_Integration_CI:

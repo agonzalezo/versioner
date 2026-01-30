@@ -1,10 +1,15 @@
 name: CI - Quality Gates & Build Docker Image
 
 on:
-  pull_request:
-    branches: [main, develop]
   push:
     branches: [main]
+    paths:
+      - 'src/**'
+      - 'Dockerfile'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/build.yml'
+      - '.github/workflows/deploy.yml'
 
 jobs:
   # Job 1: Linting (Rápido - 30s)

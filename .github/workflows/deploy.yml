@@ -1,15 +1,10 @@
-name: CI - Deploy Resources to Kubernetes
+name: CD - Deploy Resources to Kubernetes
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'src/**'
-      - 'Dockerfile'
-      - 'package.json'
-      - 'package-lock.json'
-      - '.github/workflows/build.yml'
-      - '.github/workflows/deploy.yml'
+  workflow_run:
+    workflows: ["CI - Quality Gates & Build Docker Image"] # Debe coincidir EXACTAMENTE
+    types:
+      - completed
 
 env:
   API_NAME: versioner
@@ -20,7 +15,6 @@ env:
 jobs:
   deploy_to_kubernetes:
     if: contains(github.event.head_commit.message, 'Deploy')
-    needs: [build_docker_image]
     name: Deploy to Kubernetes ${{ github.event.repository.name }}
     runs-on: self-hosted
     steps:

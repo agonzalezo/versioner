@@ -13,6 +13,9 @@ on:
 jobs:
   Continuous_Integration_CI:
     name: Continuous_Integration_CI - ${{ github.event.repository.name }}
+    permissions:
+      contents: read
+      security-events: write
     uses: ./.github/workflows/template_ci.yml
     with:
       api_name: ${{ github.event.repository.name }}

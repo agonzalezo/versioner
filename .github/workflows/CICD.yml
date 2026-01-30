@@ -1,0 +1,30 @@
+name: CI - Quality Gates & Build Docker Image
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'Dockerfile'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/build.yml'
+      - '.github/workflows/deploy.yml'
+
+env: 
+  API_NAME: ${{ github.event.repository.name }}
+
+jobs:
+  Continuous_Integration_CI:
+    name: Continuous_Integration_CI - ${{ env.API_NAME }}
+    uses: ../pipeline_templates/CI.yml@main
+    with:
+      api_name: ${{ env.API_NAME }}
+
+  Continuous_Deployment_CD:
+    name: Continuous_Deployment_CD - ${{ env.API_NAME }}
+    needs: Continuous_Integration_CI
+    if: github.ref == 'refs/heads/main'
+    uses: ../pipeline_templates/CD.yml@main
+    with:
+      api_name: ${{ env.API_NAME }}

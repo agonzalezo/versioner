@@ -1,0 +1,36 @@
+name: CI - Deploy Resources to Kubernetes
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'src/**'
+      - 'Dockerfile'
+      - 'package.json'
+      - 'package-lock.json'
+      - '.github/workflows/build.yml'
+      - '.github/workflows/deploy.yml'
+
+env:
+  API_NAME: versioner
+  API_LOG_LEVEL: short
+  PORT: 3000
+  NAME_SPACE: ${{ vars.NAME_SPACE }}
+
+jobs:
+  deploy_to_kubernetes:
+    if: contains(github.event.head_commit.message, 'Deploy')
+    needs: [build_docker_image]
+    name: Deploy to Kubernetes ${{ github.event.repository.name }}
+    runs-on: self-hosted
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3 
+      - name: Deploy to Service
+        run: kubectl apply -f kubernetes/01-Service.yml
+      - name: Deploy to Deployment
+        run: kubectl apply -f kubernetes/01-Service.yml
+      - name: Restart Deployments
+        run: kubectl -n xylon rollout restart deployment ${{ github.event.repository.name }}
+      - name: Check Deployment node-chat
+        run: kubectl -n xylon rollout status deployment ${{ github.event.repository.name }}

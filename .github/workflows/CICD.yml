@@ -1,4 +1,4 @@
-name: CI - Quality Gates & Build Docker Image
+name: CI/CD - Quality Gates & Build Docker Image & Deploy to Kubernetes
 
 on:
   push:

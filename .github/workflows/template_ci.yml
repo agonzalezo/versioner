@@ -102,7 +102,7 @@ jobs:
     needs: 
       - lint
       - security-sast
-    name: Build docker image from
+    name: Build image
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU

@@ -12,10 +12,6 @@ on:
         required: false
         type: string
         default: xylon
-    secrets:
-      # Los secretos no se heredan automáticamente por seguridad, hay que pasarlos
-      DOCKERHUB_TOKEN:
-        required: false
 
 env:
   API_NAME: ${{ inputs.api_name }}
@@ -23,7 +19,6 @@ env:
 
 jobs:
   deploy_to_kubernetes:
-    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: Deploy to Kubernetes ${{ inputs.api_name }}
     runs-on: self-hosted
     steps:

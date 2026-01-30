@@ -14,7 +14,7 @@ on:
 jobs:
   # Job 1: Linting (Rápido - 30s)
   lint:
-    name: Code Linting ${{ inputs.api_name }}
+    name: Code Linting
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
@@ -34,7 +34,7 @@ jobs:
       
   # Job 2: Security SAST (Paralelo - 1min)
   security-sast:
-    name: SAST Security Scan ${{ inputs.api_name }}
+    name: SAST Security Scan
     runs-on: ubuntu-latest
     permissions:
       contents: read
@@ -102,7 +102,7 @@ jobs:
     needs: 
       - lint
       - security-sast
-    name: Build docker image from ${{ inputs.api_name }}
+    name: Build docker image from
     runs-on: ubuntu-latest
     steps:
       - name: Set up QEMU
@@ -125,7 +125,7 @@ jobs:
           platforms: linux/amd64,linux/arm64
 
   notify-success:
-    name: 🎉 Pipeline Success ${{ inputs.api_name }}
+    name: 🎉 Pipeline Success
     runs-on: ubuntu-latest
     needs: build_docker_image
     if: success()  # Solo si TODO pasó

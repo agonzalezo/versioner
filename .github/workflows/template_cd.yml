@@ -19,7 +19,7 @@ env:
 
 jobs:
   deploy_to_kubernetes:
-    name: Deploy to Kubernetes ${{ inputs.api_name }}
+    name: Deploy to Kubernetes
     runs-on: self-hosted
     steps:
       - name: Checkout code

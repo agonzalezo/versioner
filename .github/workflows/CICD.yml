@@ -14,7 +14,7 @@ on:
 jobs:
   Continuous_Integration_CI:
     name: Continuous_Integration_CI - ${{ github.event.repository.name }}
-    uses: ./.github/workflows/template_ci.yml@main
+    uses: ./.github/workflows/template_ci.yml
     with:
       api_name: ${{ github.event.repository.name }}
 
@@ -22,6 +22,6 @@ jobs:
     name: Continuous_Deployment_CD - ${{ github.event.repository.name }}
     needs: Continuous_Integration_CI
     if: github.ref == 'refs/heads/main'
-    uses: ./.github/workflows/template_cd.yml@main
+    uses: ./.github/workflows/template_cd.yml
     with:
       api_name: ${{ github.event.repository.name }}

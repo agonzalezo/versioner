@@ -4,7 +4,7 @@ on:
   workflow_call:
     inputs:
       api_name:
-        required: false
+        required: true
         type: string
         default: versioner
         description: Nombre del deployment y service en Kubernetes

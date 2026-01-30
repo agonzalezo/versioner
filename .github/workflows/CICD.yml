@@ -11,20 +11,17 @@ on:
       - '.github/workflows/build.yml'
       - '.github/workflows/deploy.yml'
 
-env: 
-  API_NAME: ${{ github.event.repository.name }}
-
 jobs:
   Continuous_Integration_CI:
-    name: Continuous_Integration_CI - ${{ env.API_NAME }}
+    name: Continuous_Integration_CI - ${{ github.event.repository.name }}
     uses: ../pipeline_templates/CI.yml@main
     with:
-      api_name: ${{ env.API_NAME }}
+      api_name: ${{ github.event.repository.name }}
 
   Continuous_Deployment_CD:
-    name: Continuous_Deployment_CD - ${{ env.API_NAME }}
+    name: Continuous_Deployment_CD - ${{ github.event.repository.name }}
     needs: Continuous_Integration_CI
     if: github.ref == 'refs/heads/main'
     uses: ../pipeline_templates/CD.yml@main
     with:
-      api_name: ${{ env.API_NAME }}
+      api_name: ${{ github.event.repository.name }}

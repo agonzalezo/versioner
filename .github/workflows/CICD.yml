@@ -19,6 +19,8 @@ jobs:
     uses: ./.github/workflows/template_ci.yml
     with:
       api_name: ${{ github.event.repository.name }}
+    secrets:
+      DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
 
   Continuous_Deployment_CD:
     name: Continuous_Deployment_CD - ${{ github.event.repository.name }}

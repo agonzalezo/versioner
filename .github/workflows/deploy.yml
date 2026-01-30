@@ -14,7 +14,7 @@ env:
 
 jobs:
   deploy_to_kubernetes:
-    if: contains(github.event.head_commit.message, 'Deploy')
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
     name: Deploy to Kubernetes ${{ github.event.repository.name }}
     runs-on: self-hosted
     steps:

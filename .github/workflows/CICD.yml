@@ -29,3 +29,4 @@ jobs:
     uses: ./.github/workflows/template_cd.yml
     with:
       api_name: ${{ github.event.repository.name }}
+      env_name: 'PDN'

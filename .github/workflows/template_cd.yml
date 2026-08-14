@@ -12,25 +12,33 @@ on:
         required: false
         type: string
         default: xylon
+      env_name:
+        required: false
+        type: string
+        default: PDN
 
 env:
   API_NAME: ${{ inputs.api_name }}
-  NAME_SPACE: ${{ inputs.namespace }}
+  NAMESPACE: ${{ inputs.namespace }}
 
 jobs:
   deploy_to_kubernetes:
     name: Deploy to Kubernetes
     runs-on: self-hosted
+    environment: ${{ inputs.env_name }}
     steps:
+      - name: Print GH env var
+        run: |
+          echo "GH Variable: ${{ env.ENV_VAR1 }}"
       - name: Checkout code
         uses: actions/checkout@v3 
-      - name: Deploy ${{ inputs.api_name }} Service
+      - name: Deploy ${{ env.API_NAME }} Service
         run: kubectl apply -f kubernetes/01-Service.yml
-      - name: Deploy ${{ inputs.api_name }} Deployment
+      - name: Deploy ${{ env.API_NAME }} Deployment
         run: kubectl apply -f kubernetes/11-Deployment.yml
-      # - name: Deploy ${{ inputs.api_name }} HPA
+      # - name: Deploy ${{ env.API_NAME }} HPA
       #   run: kubectl apply -f kubernetes/21-hpa.yml
-      - name: Restart Deployments ${{ inputs.api_name }}
-        run: kubectl -n xylon rollout restart deployment ${{ inputs.api_name }}
-      - name: Check Deployment ${{ inputs.api_name }} Status
-        run: kubectl -n xylon rollout status deployment ${{ inputs.api_name }}
+      - name: Restart Deployments ${{ env.API_NAME }}
+        run: kubectl -n ${{ env.NAMESPACE }} rollout restart deployment ${{ env.API_NAME }}
+      - name: Check Deployment ${{ env.API_NAME }} Status
+        run: kubectl -n ${{ env.NAMESPACE }} rollout status deployment ${{ env.API_NAME }}

@@ -31,7 +31,7 @@ jobs:
         run: |
           echo "GH Variable: ${{ env.ENV_VAR1 }}"
       - name: Checkout code
-        uses: actions/checkout@v3 
+        uses: actions/checkout@v6
       - name: Deploy ${{ env.API_NAME }} Service
         run: kubectl apply -f kubernetes/01-Service.yml
       - name: Deploy ${{ env.API_NAME }} Deployment
